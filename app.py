@@ -17,7 +17,7 @@ st.title("MiniGPT Text Generator")
 st.write("A simple GPT-like model trained on Tiny Shakespeare.")
 
 
-prompt = st.text_area("Enter your prompt:", "ROMEO:")
+prompt = st.text_area("Enter your prompt:", "")
 
 max_tokens = st.slider("Max new tokens to generate", 50, 500, 200)
 
