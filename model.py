@@ -1,9 +1,7 @@
 import torch
 import torch.nn as nn
 
-# ----------------
-# Hyperparameters
-# ----------------
+
 BLOCK_SIZE = 64
 EMBEDDING_DIM = 256
 NUM_HEADS = 8
@@ -12,9 +10,7 @@ DROPOUT = 0.2
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-# ----------------
-# Vocabulary (from TinyShakespeare dataset)
-# ----------------
+
 with open("Tinyshakespeare.txt", "r", encoding="utf-8") as f:
     text = f.read()
 
@@ -24,12 +20,10 @@ vocab_size = len(chars)
 stoi = {ch: i for i, ch in enumerate(chars)}
 itos = {i: ch for i, ch in enumerate(chars)}
 
-encode = lambda s: [stoi[c] for c in s]          # string -> list of ints
-decode = lambda l: ''.join([itos[i] for i in l]) # list of ints -> string
+encode = lambda s: [stoi[c] for c in s]          
+decode = lambda l: ''.join([itos[i] for i in l]) 
 
-# ----------------
-# Transformer Components
-# ----------------
+
 class Head(nn.Module):
     """One self-attention head"""
     def __init__(self, head_size):
@@ -95,9 +89,7 @@ class Block(nn.Module):
         x = x + self.ffwd(self.l2(x))
         return x
 
-# ----------------
-# MiniGPT Model
-# ----------------
+
 class MiniGPTModel(nn.Module):
     def __init__(self):
         super().__init__()
@@ -121,7 +113,7 @@ class MiniGPTModel(nn.Module):
         for _ in range(max_new_tokens):
             idx_cond = idx[:, -BLOCK_SIZE:]
             logits, _ = self(idx_cond)
-            logits = logits[:, -1, :]  # last time step
+            logits = logits[:, -1, :]  
             probs = torch.softmax(logits, dim=-1)
             idx_next = torch.multinomial(probs, num_samples=1)
             idx = torch.cat((idx, idx_next), dim=1)
