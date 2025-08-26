@@ -1,0 +1,5 @@
+torch==2.1.0+cu129
+torchvision==0.16.1+cu129
+torchaudio==2.1.0+cu129
+numpy
+streamlit
